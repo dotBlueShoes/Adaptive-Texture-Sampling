@@ -1,0 +1,2 @@
+
+!difference 		=  %shell% "%_path%\.quail\cmd\gimp\pass_and_call_via_env_vars" '%gimp_console_path%' '%_path%/gimp/difference.py'

@@ -1,0 +1,84 @@
+# ---
+# SUBPROJECTS
+# ---
+
+^-cmake     = \ .quail\cmake.txt
+^-blender	= \ .quail\blender.txt
+^-gimp      = \ .quail\gimp.txt
+
+#
+# Constants
+#
+
+%cs             = C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.6\bin\compute-sanitizer
+%project_color	= #B9B3DB
+%cmp			= comp
+%cpu			= CPU
+%gpu			= GPU
+%other			= other
+%p1				= x64-debug
+%p2				= x64-release
+
+#
+# CONFIGS
+#
+
+!config			= start "" notepad++ "%_path%\.quail\quail.txt"
+
+#
+# BASIC
+#
+
+!terminal		= wt -w 1 nt --title %_name% -d "%_path%" --tabColor "%project_color%"
+!directory		= explorer "%_path%"
+!code			= start "" "%vscode_path%" "%_path%"
+!github			= github "%_path%"
+!spellcheck     = %typos_path% "%_path%\project"
+
+!result			= start "" "%_path%\out\output.png"
+!out_directory  = explorer "%_path%\out"
+!test           = %shell% "%_path%\.quail\cmd\test"
+
+
+
+
+#
+# BUILDING
+#
+
+!bld			= %shell% "%_path%\.quail\cmd\build" "%_path%" '%vcvarsall_dir%' '%p1%'
+!bbld			= %shell% "%_path%\.quail\cmd\build" "%_path%" '%vcvarsall_dir%' '%p2%'
+
+#
+# EXECUTE
+#
+
+!exe_cpu		= %shell% "%_path%\.quail\cmd\execute\with_resources" "%_path%/build/%p1%/project/%cpu%" '%cpu%'
+!eexe_cpu		= %shell% "%_path%\.quail\cmd\execute\with_resources" "%_path%/build/%p2%/project/%cpu%" '%cpu%'
+
+!exe_gpu		= %shell% "%_path%\.quail\cmd\execute\gpu_debug" '%cs%' "%_path%/build/%p1%/project/%gpu%" '%gpu%'
+!eexe_gpu		= %shell% "%_path%\.quail\cmd\execute\with_resources" "%_path%/build/%p2%/project/%gpu%" '%gpu%'
+
+!exe_cmp		= %shell% "%_path%\.quail\cmd\execute\with_resources" "%_path%/build/%p1%/project/%cmp%" '%cmp%'
+!eexe_cmp		= %shell% "%_path%\.quail\cmd\execute\with_resources" "%_path%/build/%p2%/project/%cmp%" '%cmp%'
+
+!exe_oth		= %shell% "%_path%\.quail\cmd\execute\gpu_debug" '%cs%' "%_path%/build/%p1%/project/%other%" '%other%'
+!eexe_oth		= %shell% "%_path%\.quail\cmd\execute\with_resources" "%_path%/build/%p2%/project/%other%" '%other%'
+
+#
+# QUEUES
+#
+
+#,result
+
+|cpu			= bld,exe_cpu
+|ccpu			= bbld,eexe_cpu
+
+|gpu			= bld,exe_gpu
+|ggpu			= bbld,eexe_gpu
+
+|cmp			= bld,exe_cmp
+|ccmp			= bbld,eexe_cmp
+
+|oth			= bld,exe_oth
+|ooth			= bbld,eexe_oth

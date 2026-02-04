@@ -1,0 +1,20 @@
+# Enviroment
+.vscode/
+/.vs/
+
+# Builds
+build/
+x64/
+
+*.zip
+*.exe
+
+# LATEX
+# out
+# /latex/base/out/
+# all
+/latex/
+
+# Obsidian
+extras/ComputingGPU/.obsidian/workspace.json
+

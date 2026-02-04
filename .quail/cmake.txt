@@ -1,0 +1,8 @@
+
+!config 	= start "" notepad++ %_path%/.quail/cmake.txt
+
+!refresh	= %shell% "%_path%\.quail\cmd\cmake\refresh" "%_path%" '%vcvarsall_dir%'
+!clear		= %shell% "%_path%\.quail\cmd\cmake\clear" "%_path%\build" "%_path%\.cache"
+
+# Alt. name
+|remove		= clear
