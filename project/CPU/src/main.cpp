@@ -20,18 +20,18 @@
 
 
 void framebuffer_size_callback (
-	GLFWwindow* window, 
-	int width, 
-	int height
+    GLFWwindow* window, 
+    int width, 
+    int height
 ) {
     //  IMPORTANT
     // unused variables -> width, height
-	glViewport (0, 0, ATS_ASSET_INPUT_CANVAS_X, ATS_ASSET_INPUT_CANVAS_Y);
+    glViewport (0, 0, ATS_ASSET_INPUT_CANVAS_X, ATS_ASSET_INPUT_CANVAS_Y);
 }  
 
 
 void GLFW_TERMINATE (void*) {
-	glfwTerminate ();
+    glfwTerminate ();
 }
 
 
@@ -103,7 +103,7 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
     // LOGINFO ("imageFilepath: %s\n", imageFilepath);
 
     // --- Persistent asset loading.
-	IMAGE::Load (iImage, iImageData, imageFilepath);
+    IMAGE::Load (iImage, iImageData, imageFilepath);
     IMAGE::Load (specialImage, specialImageData, specialFilepath);
     // ---
 
@@ -117,12 +117,12 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
         c8 windowTitleBuffer[] = ATS_ASSET_WINDOW_TITLE " \0\0\0\0\0\0\0\0\0";
     #endif
 
-	{ // --- Window, API's setup's
+    { // --- Window, API's setup's
 
-		glfwInit ();
-		glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 6);
-		glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwInit ();
+        glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 6);
+        glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
         #ifndef ATS_ENABLE_FRAMEBUFFER_RENDER
 
@@ -141,40 +141,40 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
         // Create Window.
         #ifdef ATS_DISPLAY_FPS
             window = glfwCreateWindow (
-			    ATS_ASSET_OUTPUT_CANVAS_X, ATS_ASSET_OUTPUT_CANVAS_Y, 
-			    windowTitleBuffer, 
-			    nullptr, nullptr
-		    );
+                ATS_ASSET_OUTPUT_CANVAS_X, ATS_ASSET_OUTPUT_CANVAS_Y, 
+                windowTitleBuffer, 
+                nullptr, nullptr
+            );
         #else
             window = glfwCreateWindow (
-			    ATS_ASSET_OUTPUT_CANVAS_X, ATS_ASSET_OUTPUT_CANVAS_Y, 
-			    ATS_ASSET_WINDOW_TITLE, 
-			    nullptr, nullptr
-		    );
+                ATS_ASSET_OUTPUT_CANVAS_X, ATS_ASSET_OUTPUT_CANVAS_Y, 
+                ATS_ASSET_WINDOW_TITLE, 
+                nullptr, nullptr
+            );
         #endif
-		
+        
 
-		{ // Properly deallocate data if we hit ERROR.
-			// TODO MEMORY::EXIT::PUSH (IMAGE::Free, iImage.data);
-			MEMORY::EXIT::PUSH (GLFW_TERMINATE, nullptr);
-		}
+        { // Properly deallocate data if we hit ERROR.
+            // TODO MEMORY::EXIT::PUSH (IMAGE::Free, iImage.data);
+            MEMORY::EXIT::PUSH (GLFW_TERMINATE, nullptr);
+        }
 
-		if (window == nullptr) ERROR ("Failed to create GLFW window!\n");
+        if (window == nullptr) ERROR ("Failed to create GLFW window!\n");
 
-		// Bind GL Context to Window.
-		glfwMakeContextCurrent (window);
+        // Bind GL Context to Window.
+        glfwMakeContextCurrent (window);
 
-		// More GLFW initialization.
-		glfwSetFramebufferSizeCallback (window, framebuffer_size_callback);
+        // More GLFW initialization.
+        glfwSetFramebufferSizeCallback (window, framebuffer_size_callback);
 
         #ifdef ATS_SWAP_INTERVAL
             glfwSwapInterval (ATS_SWAP_INTERVAL);
         #endif
 
-		// Initialize GLAD.
-		if (!gladLoadGLLoader ((GLADloadproc)glfwGetProcAddress)) {
-			ERROR ("Failed to initialize GLAD!\n");
-		}
+        // Initialize GLAD.
+        if (!gladLoadGLLoader ((GLADloadproc)glfwGetProcAddress)) {
+            ERROR ("Failed to initialize GLAD!\n");
+        }
 
         #ifdef ATS_ENABLE_EXTENSIONS_CHECK
             LOGINFO ("GL device: %s\n", glGetString(GL_VENDOR));
@@ -188,20 +188,20 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
 
         // --- Meta-objects
 
-		    //  LOGIC
-		    // Defing an Object as Mesh, Material, Uniforms, Textures as if read from a file ( but not really ).
+            //  LOGIC
+            // Defing an Object as Mesh, Material, Uniforms, Textures as if read from a file ( but not really ).
 
-		    MESH::Mesh meshes[] {
-		    	MESH::Mesh { 0, 0, MESH::DDD::CUBE::ELEMENTS_COUNT, MESH::DDD::CUBE::MODE },
-		    	MESH::Mesh { 1, 0, MESH::DDD::FSQUARE::ELEMENTS_COUNT, MESH::DDD::FSQUARE::MODE },
-		    };
+            MESH::Mesh meshes[] {
+                MESH::Mesh { 0, 0, MESH::DDD::CUBE::ELEMENTS_COUNT, MESH::DDD::CUBE::MODE },
+                MESH::Mesh { 1, 0, MESH::DDD::FSQUARE::ELEMENTS_COUNT, MESH::DDD::FSQUARE::MODE },
+            };
 
-		    CAMERA::Camera3D camera { 
-		    	CAMERA::Camera3D::Type::TYPE_FREE, 
-		    	glm::vec3 (.0f, .0f, ATS_CAMERA_Z_SIGN 3.0f), 
-		    	ATS_CAMERA_FOV, 
-		    	glm::vec3 (.0f, .0f, .0f)
-		    };
+            CAMERA::Camera3D camera { 
+                CAMERA::Camera3D::Type::TYPE_FREE, 
+                glm::vec3 (.0f, .0f, ATS_CAMERA_Z_SIGN 3.0f), 
+                ATS_CAMERA_FOV, 
+                glm::vec3 (.0f, .0f, .0f)
+            };
 
             TRANSFORM::Local transforms[] {
                 TRANSFORM::Local { 
@@ -211,13 +211,13 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
                 },
             };
 
-		    //LOGINFO (
-		    //	"t: %d, p: [%f, %f, %f], v: %f, r: [%f, %f, %f]\n", 
-		    //	camera.type, camera.position.x, 
-		    //	camera.position.y, camera.position.z,
-		    //	camera.fov, camera.rotation.x,
-		    //	camera.rotation.y, camera.rotation.z
-		    //);
+            //LOGINFO (
+            //	"t: %d, p: [%f, %f, %f], v: %f, r: [%f, %f, %f]\n", 
+            //	camera.type, camera.position.x, 
+            //	camera.position.y, camera.position.z,
+            //	camera.fov, camera.rotation.x,
+            //	camera.rotation.y, camera.rotation.z
+            //);
 
         // ---
 
@@ -225,72 +225,72 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
         // --- Render scene and environment variables.
 
             // Meshes
-		    u32 vaosCount = 2;              
-		    GLuint* vaos;					
+            u32 vaosCount = 2;              
+            GLuint* vaos;					
 
             // Mesh buffers ( We have 2 VUE Meshes )
-		    u32 xbosCount = MESH::VAO::VUE_BUFFERS_COUNT * 2;   
-		    GLuint* xbos;
+            u32 xbosCount = MESH::VAO::VUE_BUFFERS_COUNT * 2;   
+            GLuint* xbos;
 
             const u32 XBOS_1_BUFFERS = 0;
             const u32 XBOS_2_BUFFERS = 3;
 
             #ifdef ATS_ENABLE_FRAMEBUFFER_RENDER
                 // Material->Shader 's
-		        u32 shadersCount = 2;           
-		        GLuint* shaders;
+                u32 shadersCount = 2;           
+                GLuint* shaders;
             #else
                 // Material->Shader 's
-		        u32 shadersCount = 1;           
-		        GLuint* shaders;
+                u32 shadersCount = 1;           
+                GLuint* shaders;
             #endif
             
             #ifdef ATS_ENABLE_CMAA2
                 // Compute shaders
                 u32 computesCount = 1;           
-		        GLuint* computes;
+                GLuint* computes;
             #endif
 
             // Material->Shader->Uniforms 's
             #ifdef ATS_ENABLE_FRAMEBUFFER_DEPTH_TEXTURE
                 u32 uniformsListsCount = 11; // + 2
-		        u16* uniformsLists;             
+                u16* uniformsLists;             
             #else
                 #ifdef ATS_ENABLE_FRAMEBUFFER_RENDER
                     u32 uniformsListsCount = 10; // + 2
-		            u16* uniformsLists;  
+                    u16* uniformsLists;  
                 #else
                     u32 uniformsListsCount = 6;     
-		            u16* uniformsLists;  
+                    u16* uniformsLists;  
                 #endif
             #endif
 
             // Material->Texture 's
-		    u32 texturesCount = 2;          
-		    GLuint* textures;	
+            u32 texturesCount = 2;          
+            GLuint* textures;	
 
             #ifdef ATS_ENABLE_FRAMEBUFFER_RENDER
 
                 // Framebuffer 's
                 u32 fbosCount = 1;               
-		        GLuint* fbos;
+                GLuint* fbos;
 
                 #ifdef ATS_ENABLE_FRAMEBUFFER_DEPTH_TEXTURE
 
                     // Framebuffer->Texture 's
                     u32 ftosCount = 3; // + 1          
-		            GLuint* ftos;	
+                    GLuint* ftos;	
 
 
                 #else 
 
                     // Framebuffer->Texture 's
                     u32 ftosCount = 2;          
-		            GLuint* ftos;	
+                    GLuint* ftos;	
 
                     // Framebuffer->RenderBuffer 's
                     u32 rbosCount = 1;               
-		            GLuint* rbos;
+                    GLuint* rbos;
 
                 #endif
 
@@ -299,7 +299,7 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
         // ---
 
 
-		// --- Rendererer scene and environment setting up.
+        // --- Rendererer scene and environment setting up.
 
             { // --- Settings
 
@@ -352,18 +352,18 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
             }
 
 
-			{ // --- Load Textures.
+            { // --- Load Textures.
 
-				ALLOCATE (GLuint, textures, texturesCount * sizeof (GLuint));
-				MEMORY::EXIT::PUSH (FREE, textures);
+                ALLOCATE (GLuint, textures, texturesCount * sizeof (GLuint));
+                MEMORY::EXIT::PUSH (FREE, textures);
 
-				glGenTextures (texturesCount, textures);
+                glGenTextures (texturesCount, textures);
 
                 #if ATS_TEXTURE_FILTERING_METHOD == ATS_NEAREST
 
                     #if ATS_TEXTURE_MIPMAP_FILTERING_METHOD == ATS_MIPMAP_NONE
 
-				        TEXTURE::Create (textures[0], iImage, iImageData, GL_NEAREST, GL_NEAREST);
+                        TEXTURE::Create (textures[0], iImage, iImageData, GL_NEAREST, GL_NEAREST);
                         TEXTURE::Create (textures[1], specialImage, specialImageData, GL_NEAREST, GL_NEAREST);
 
                     #elif ATS_TEXTURE_MIPMAP_FILTERING_METHOD == ATS_MIPMAP_NEAREST
@@ -381,7 +381,7 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
 
                     #if ATS_TEXTURE_MIPMAP_FILTERING_METHOD == ATS_MIPMAP_NONE
 
-				        TEXTURE::Create (textures[0], iImage, iImageData, GL_NEAREST, GL_LINEAR);
+                        TEXTURE::Create (textures[0], iImage, iImageData, GL_NEAREST, GL_LINEAR);
                         TEXTURE::Create (textures[1], specialImage, specialImageData, GL_NEAREST, GL_LINEAR);
 
                     #elif ATS_TEXTURE_MIPMAP_FILTERING_METHOD == ATS_MIPMAP_NEAREST
@@ -416,7 +416,7 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
 
                 { // --- Create Framebuffer Textures.
                     ALLOCATE (GLuint, ftos, ftosCount * sizeof (GLuint));
-			    	MEMORY::EXIT::PUSH (FREE, ftos);
+                    MEMORY::EXIT::PUSH (FREE, ftos);
 
                     glGenTextures (ftosCount, ftos);
 
@@ -437,7 +437,7 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
 
                     #if (ATS_MSAA_LEVEL == 0)
 
-			    	    FRAMEBUFFER::TEXTURE::Create (
+                        FRAMEBUFFER::TEXTURE::Create (
                             ftos[0], inputformat, outputformat,
                             ATS_ASSET_INPUT_CANVAS_X, ATS_ASSET_INPUT_CANVAS_Y, 
                             filtering, GL_UNSIGNED_BYTE
@@ -458,7 +458,7 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
                         
                     #endif
 
-			    } // ---
+                } // ---
 
 
                 #ifdef ATS_ENABLE_FRAMEBUFFER_DEPTH_TEXTURE
@@ -478,14 +478,14 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
 
                 #else
 
-			        { // --- Create Render Buffer Object -> Stencil & Depth
+                    { // --- Create Render Buffer Object -> Stencil & Depth
                         ALLOCATE (GLuint, rbos, rbosCount * sizeof (GLuint));
-			        	MEMORY::EXIT::PUSH (FREE, rbos);
+                        MEMORY::EXIT::PUSH (FREE, rbos);
 
-			        	glGenRenderbuffers (rbosCount, rbos);
+                        glGenRenderbuffers (rbosCount, rbos);
 
-			        	#if (ATS_MSAA_LEVEL == 0)
-			        	    FRAMEBUFFER::RENDERBUFFEROBJECT::Create (
+                        #if (ATS_MSAA_LEVEL == 0)
+                            FRAMEBUFFER::RENDERBUFFEROBJECT::Create (
                                 rbos[0], GL_DEPTH24_STENCIL8, 
                                 ATS_ASSET_INPUT_CANVAS_X, ATS_ASSET_INPUT_CANVAS_Y
                             );
@@ -495,16 +495,16 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
                                 ATS_ASSET_INPUT_CANVAS_X, ATS_ASSET_INPUT_CANVAS_Y
                             );
                         #endif
-			        } // ---
+                    } // ---
 
                 #endif
 
 
-			    { // --- Create Framebuffer
+                { // --- Create Framebuffer
                     ALLOCATE (GLuint, fbos, fbosCount * sizeof (GLuint));
-			    	MEMORY::EXIT::PUSH (FREE, fbos);
+                    MEMORY::EXIT::PUSH (FREE, fbos);
 
-			    	glGenFramebuffers (fbosCount, fbos);
+                    glGenFramebuffers (fbosCount, fbos);
 
                     #ifdef ATS_ENABLE_FRAMEBUFFER_DEPTH_TEXTURE
 
@@ -525,7 +525,7 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
 
                     #else
                         #if (ATS_MSAA_LEVEL == 0)
-			    	        FRAMEBUFFER::Create (
+                            FRAMEBUFFER::Create (
                                 fbos[0], 
                                 ftos[0], GL_COLOR_ATTACHMENT0,
                                 ftos[1], GL_COLOR_ATTACHMENT1, 
@@ -539,8 +539,8 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
                             ); 
                         #endif
                     #endif
-			    	
-			    } // ---
+                    
+                } // ---
 
             #endif
 
@@ -548,22 +548,22 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
             //LOGINFO ("pre-shader\n");
 
 
-			{ // --- Load Shaders.
-				
-				ALLOCATE (GLuint, shaders, shadersCount * sizeof (GLuint));
-				MEMORY::EXIT::PUSH (FREE, shaders);
+            { // --- Load Shaders.
+                
+                ALLOCATE (GLuint, shaders, shadersCount * sizeof (GLuint));
+                MEMORY::EXIT::PUSH (FREE, shaders);
 
                 //  LOGIC
                 // A buffer is required to read file. What's read is then compiled.
 
-				const u16 bufferSize = 
+                const u16 bufferSize = 
                     ATS_MAX_CHARS_FOR_SHADER_VERT_FILE +
                     ATS_MAX_CHARS_FOR_SHADER_FRAG_FILE;
 
-				c8* buffer;
+                c8* buffer;
 
-				ALLOCATE (c8, buffer, bufferSize * sizeof (c8));
-				MEMORY::EXIT::PUSH (FREE, buffer);
+                ALLOCATE (c8, buffer, bufferSize * sizeof (c8));
+                MEMORY::EXIT::PUSH (FREE, buffer);
 
                 c8* bufferFrag = buffer + ATS_MAX_CHARS_FOR_SHADER_VERT_FILE;
                 c8* bufferVert = buffer;
@@ -574,11 +574,11 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
                     u32 ffsdSize = ATS_MAX_CHARS_FOR_SHADER_FRAG_FILE + GLSL_INJECTION_INCLUDE_ALL_LENGTH; 
 
                     ALLOCATE (c8, GLSL::ffsd, ffsdSize * sizeof (c8));
-			        MEMORY::EXIT::PUSH (FREE, GLSL::ffsd);
+                    MEMORY::EXIT::PUSH (FREE, GLSL::ffsd);
 
                 #endif
 
-				{ // Actual shader loading.
+                { // Actual shader loading.
 
                     { // - shader 0
                         SHADER::ReadFile (ASSET::SHADER_VERT_CUBE, bufferVert, ATS_SHADER_VERT);
@@ -597,8 +597,8 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
                         }
 
                     #endif
-					
-				}
+                    
+                }
 
                 #ifdef ATS_GLSL_INJECTION
 
@@ -606,8 +606,8 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
 
                 #endif
 
-				FREE (buffer); MEMORY::EXIT::POP ();
-			} // ---
+                FREE (buffer); MEMORY::EXIT::POP ();
+            } // ---
 
 
             #ifdef ATS_ENABLE_CMAA2
@@ -619,7 +619,7 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
                 c8* buffer;
 
                 ALLOCATE (c8, buffer, bufferSize * sizeof (c8));
-				MEMORY::EXIT::PUSH (FREE, buffer);
+                MEMORY::EXIT::PUSH (FREE, buffer);
 
                 SHADER::ReadFile (ASSET::SHADER_COMP, buffer, ATS_SHADER_COMP);
                 SHADER::COMPUTE::Compile (computes[0], buffer);
@@ -632,15 +632,15 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
             //LOGINFO ("post-shader\n");
 
 
-			// --- Set Shaders uniforms
-				ALLOCATE (u16, uniformsLists, uniformsListsCount * sizeof (u16));
-				MEMORY::EXIT::PUSH (FREE, uniformsLists);
+            // --- Set Shaders uniforms
+                ALLOCATE (u16, uniformsLists, uniformsListsCount * sizeof (u16));
+                MEMORY::EXIT::PUSH (FREE, uniformsLists);
 
                 #ifdef ATS_ENABLE_FRAMEBUFFER_DEPTH_TEXTURE
 
                     //  IMPORTANT
-				    // Remember to manually change the SHADER_N_UNIFORMS variables when changing shaders code!
-				    //
+                    // Remember to manually change the SHADER_N_UNIFORMS variables when changing shaders code!
+                    //
 
                     const u32 SHADER_FINAL_UNIFORMS = 0;
                     const u32 SHADER_SCENE_UNIFORMS = 4;
@@ -656,19 +656,19 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
                     uniformsLists[2] = UNIFORM::ID::TEXTURE1;
                     uniformsLists[3] = UNIFORM::ID::TEXTURE2;
 
-				    uniformsLists[4] = 6;
-				    uniformsLists[5] = UNIFORM::ID::COLOR;      // layout 0 
-				    uniformsLists[6] = UNIFORM::ID::TEXTURE0;   // layout 1 
-				    uniformsLists[7] = UNIFORM::ID::PROJECTION; // layout 2 
-				    uniformsLists[8] = UNIFORM::ID::VIEW;       // layout 3 
-				    uniformsLists[9] = UNIFORM::ID::TRANSFORM;  // layout 4 
+                    uniformsLists[4] = 6;
+                    uniformsLists[5] = UNIFORM::ID::COLOR;      // layout 0 
+                    uniformsLists[6] = UNIFORM::ID::TEXTURE0;   // layout 1 
+                    uniformsLists[7] = UNIFORM::ID::PROJECTION; // layout 2 
+                    uniformsLists[8] = UNIFORM::ID::VIEW;       // layout 3 
+                    uniformsLists[9] = UNIFORM::ID::TRANSFORM;  // layout 4 
                     uniformsLists[10] = UNIFORM::ID::TEXTURE1;  // layout 5
 
                 #else
 
                     //  IMPORTANT
-				    // Remember to manually change the SHADER_N_UNIFORMS variables when changing shaders code!
-				    //
+                    // Remember to manually change the SHADER_N_UNIFORMS variables when changing shaders code!
+                    //
 
                     #ifdef ATS_ENABLE_FRAMEBUFFER_RENDER
                         const u32 SHADER_FINAL_UNIFORMS = 0;
@@ -684,116 +684,116 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
 
                         uniformsLists[2] = UNIFORM::ID::TEXTURE1;   // layout 1 
 
-				        uniformsLists[3] = 6;
-				        uniformsLists[4] = UNIFORM::ID::COLOR;      // layout 0 
-				        uniformsLists[5] = UNIFORM::ID::TEXTURE0;   // layout 1
-				        uniformsLists[6] = UNIFORM::ID::PROJECTION; // layout 2
-				        uniformsLists[7] = UNIFORM::ID::VIEW;       // layout 3
-				        uniformsLists[8] = UNIFORM::ID::TRANSFORM;  // layout 4
+                        uniformsLists[3] = 6;
+                        uniformsLists[4] = UNIFORM::ID::COLOR;      // layout 0 
+                        uniformsLists[5] = UNIFORM::ID::TEXTURE0;   // layout 1
+                        uniformsLists[6] = UNIFORM::ID::PROJECTION; // layout 2
+                        uniformsLists[7] = UNIFORM::ID::VIEW;       // layout 3
+                        uniformsLists[8] = UNIFORM::ID::TRANSFORM;  // layout 4
                         uniformsLists[9] = UNIFORM::ID::TEXTURE1;   // layout 5
                     #else
                         const u32 SHADER_SCENE_UNIFORMS = 0;
             
-				        uniformsLists[0] = 5;
-				        uniformsLists[1] = UNIFORM::ID::COLOR;
-				        uniformsLists[2] = UNIFORM::ID::TEXTURE0;
-				        uniformsLists[3] = UNIFORM::ID::PROJECTION;
-				        uniformsLists[4] = UNIFORM::ID::VIEW;
-				        uniformsLists[5] = UNIFORM::ID::TRANSFORM;
+                        uniformsLists[0] = 5;
+                        uniformsLists[1] = UNIFORM::ID::COLOR;
+                        uniformsLists[2] = UNIFORM::ID::TEXTURE0;
+                        uniformsLists[3] = UNIFORM::ID::PROJECTION;
+                        uniformsLists[4] = UNIFORM::ID::VIEW;
+                        uniformsLists[5] = UNIFORM::ID::TRANSFORM;
                     #endif
 
                 #endif
-				
-			// ---
+                
+            // ---
 
 
-			{ // --- Generate Meshes ( as in MEMORY space )
+            { // --- Generate Meshes ( as in MEMORY space )
 
-				//  ABOUT
-				// To easily allocate and deallocate all defined meshes
-				//  we're taking care of all buffers of said meshes 
-				//  once.
-				//
+                //  ABOUT
+                // To easily allocate and deallocate all defined meshes
+                //  we're taking care of all buffers of said meshes 
+                //  once.
+                //
 
-				//  IMPORTANT NOTE
-				// Remember to update this value whenever a different
-				//  vao is being used.
-				//
-				ALLOCATE (GLuint, xbos, xbosCount * sizeof (GLuint)); 
-				MEMORY::EXIT::PUSH (FREE, xbos);
+                //  IMPORTANT NOTE
+                // Remember to update this value whenever a different
+                //  vao is being used.
+                //
+                ALLOCATE (GLuint, xbos, xbosCount * sizeof (GLuint)); 
+                MEMORY::EXIT::PUSH (FREE, xbos);
 
-				glGenBuffers (xbosCount, xbos);
+                glGenBuffers (xbosCount, xbos);
 
-			} // ---
+            } // ---
 
 
-			{ // --- Initialize Meshes.
+            { // --- Initialize Meshes.
 
-				ALLOCATE (GLuint, vaos, vaosCount * sizeof (GLuint)); 
-				MEMORY::EXIT::PUSH (FREE, vaos);
+                ALLOCATE (GLuint, vaos, vaosCount * sizeof (GLuint)); 
+                MEMORY::EXIT::PUSH (FREE, vaos);
 
-				glGenVertexArrays (vaosCount, vaos);
+                glGenVertexArrays (vaosCount, vaos);
 
                 // Cube
-				MESH::VAO::CreateVUE (
-					vaos[0], xbos + XBOS_1_BUFFERS,
-					MESH::DDD::CUBE::POINTS_COUNT,
-					MESH::DDD::CUBE::VERTICES,
-					MESH::DDD::CUBE::UVS,
-					MESH::DDD::CUBE::ELEMENTS_COUNT,
-					MESH::DDD::CUBE::ELEMENTS
-				);
+                MESH::VAO::CreateVUE (
+                    vaos[0], xbos + XBOS_1_BUFFERS,
+                    MESH::DDD::CUBE::POINTS_COUNT,
+                    MESH::DDD::CUBE::VERTICES,
+                    MESH::DDD::CUBE::UVS,
+                    MESH::DDD::CUBE::ELEMENTS_COUNT,
+                    MESH::DDD::CUBE::ELEMENTS
+                );
 
                 // Screen
-				MESH::VAO::CreateVUE (
-					vaos[1], xbos + XBOS_2_BUFFERS,
-					MESH::DDD::FSQUARE::POINTS_COUNT,
-					MESH::DDD::FSQUARE::VERTICES,
-					MESH::DDD::FSQUARE::UVS,
-					MESH::DDD::FSQUARE::ELEMENTS_COUNT,
-					MESH::DDD::FSQUARE::ELEMENTS
-				);
+                MESH::VAO::CreateVUE (
+                    vaos[1], xbos + XBOS_2_BUFFERS,
+                    MESH::DDD::FSQUARE::POINTS_COUNT,
+                    MESH::DDD::FSQUARE::VERTICES,
+                    MESH::DDD::FSQUARE::UVS,
+                    MESH::DDD::FSQUARE::ELEMENTS_COUNT,
+                    MESH::DDD::FSQUARE::ELEMENTS
+                );
 
-			} // ---
+            } // ---
 
-		// ---
+        // ---
 
 
-		{ // --- CANVAS SETTING UP
+        { // --- CANVAS SETTING UP
 
-		    const r32 canvasRatio = (r32)ATS_ASSET_INPUT_CANVAS_X / (r32)ATS_ASSET_INPUT_CANVAS_Y;
-		    glViewport (0, 0, ATS_ASSET_INPUT_CANVAS_X, ATS_ASSET_INPUT_CANVAS_Y);
+            const r32 canvasRatio = (r32)ATS_ASSET_INPUT_CANVAS_X / (r32)ATS_ASSET_INPUT_CANVAS_Y;
+            glViewport (0, 0, ATS_ASSET_INPUT_CANVAS_X, ATS_ASSET_INPUT_CANVAS_Y);
         
-		    { // --- UNIFORMS PRE-SETUP
+            { // --- UNIFORMS PRE-SETUP
 
-		    	{ // PROJECTION
-		    		auto&& projection = *(glm::mat4*)(UNIFORM::projection + 1);
-		    		auto&& count = *(GLint*)UNIFORM::projection;
+                { // PROJECTION
+                    auto&& projection = *(glm::mat4*)(UNIFORM::projection + 1);
+                    auto&& count = *(GLint*)UNIFORM::projection;
 
-		    		projection = GLM::VIEW::Perspective (camera.fov, canvasRatio);
+                    projection = GLM::VIEW::Perspective (camera.fov, canvasRatio);
 
-		    		count = 1;
-		    	}
+                    count = 1;
+                }
 
-		    	{ // VIEW
-		    		auto&& view = *(glm::mat4*)(UNIFORM::view + 1);
-		    		auto&& count = *(GLint*)UNIFORM::view;
+                { // VIEW
+                    auto&& view = *(glm::mat4*)(UNIFORM::view + 1);
+                    auto&& count = *(GLint*)UNIFORM::view;
 
-		    		CAMERA::GetView (view, camera);
+                    CAMERA::GetView (view, camera);
 
-		    		count = 1;
-		    	}
+                    count = 1;
+                }
 
-		    	{ // TRANSFORM
-		    		auto&& transform = *(glm::mat4*)(UNIFORM::transform + 1);
-		    		auto&& count = *(GLint*)UNIFORM::transform;
+                { // TRANSFORM
+                    auto&& transform = *(glm::mat4*)(UNIFORM::transform + 1);
+                    auto&& count = *(GLint*)UNIFORM::transform;
 
-		    		// NOTE. We're presetting TRANSFORM to identity matrix later.
+                    // NOTE. We're presetting TRANSFORM to identity matrix later.
 
-		    		count = 1;
-		    	}
+                    count = 1;
+                }
 
-		    } // ---
+            } // ---
 
         } // ---
 
@@ -806,7 +806,7 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
         r32 timeValue = prevTimeValue + FLT_EPSILON;
 
         // --- The game loop
-		while (!glfwWindowShouldClose (window)) { 
+        while (!glfwWindowShouldClose (window)) { 
 
             r32 deltaTime = timeValue - prevTimeValue;
 
@@ -818,46 +818,46 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
                 glfwSetWindowTitle (window, windowTitleBuffer);
             #endif
 
-			{ // --- My framebuffer or default render.
+            { // --- My framebuffer or default render.
 
                 #ifdef ATS_ENABLE_FRAMEBUFFER_RENDER
-				    glBindFramebuffer (GL_FRAMEBUFFER, fbos[0]);
+                    glBindFramebuffer (GL_FRAMEBUFFER, fbos[0]);
                 #else
                     glBindFramebuffer (GL_FRAMEBUFFER, 0);
                 #endif
 
-				glEnable (GL_DEPTH_TEST); 
-				glClearColor (ATS_ASSET_BACKGROUND_COLOR);
-				glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                glEnable (GL_DEPTH_TEST); 
+                glClearColor (ATS_ASSET_BACKGROUND_COLOR);
+                glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-				SHADER::Use (shaders[0]);
+                SHADER::Use (shaders[0]);
 
-				{ // TEXTURE Diffuse
-					UNIFORM::texture0[0] = 0;
-					UNIFORM::texture0[1] = textures[0];
-				}
+                { // TEXTURE Diffuse
+                    UNIFORM::texture0[0] = 0;
+                    UNIFORM::texture0[1] = textures[0];
+                }
 
                 { // TEXTURE Upscale
-			    	UNIFORM::texture1[0] = 1;
-			    	UNIFORM::texture1[1] = textures[1];
-			    }
+                    UNIFORM::texture1[0] = 1;
+                    UNIFORM::texture1[1] = textures[1];
+                }
 
-				{ // COLOR
-					//  TODO
+                { // COLOR
+                    //  TODO
                     // - MAGIC_NUMBERS. Changing the GREEN value.
                     // - This is old code. Resolve if it is even used. Don't obfuscate execution time.
-					UNIFORM::color[1] = (sin (timeValue) / 2.0f) + 0.5f;
-				}
+                    UNIFORM::color[1] = (sin (timeValue) / 2.0f) + 0.5f;
+                }
 
-				{ // Single mesh draw. 
+                { // Single mesh draw. 
 
-					{ // TRANSFORM
-						auto&& transform = *(glm::mat4*)(UNIFORM::transform + 1);
+                    { // TRANSFORM
+                        auto&& transform = *(glm::mat4*)(UNIFORM::transform + 1);
                         auto& local = transforms[0];
 
-						transform = glm::mat4 (1.0f);
+                        transform = glm::mat4 (1.0f);
 
-						transform = glm::translate (transform, 
+                        transform = glm::translate (transform, 
                             glm::vec3 (local.px, local.py, local.pz)
                         ); 
 
@@ -876,19 +876,19 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
                             local.rz
                         );
 
-					}
+                    }
 
-					auto&& uniformsList = uniformsLists + SHADER_SCENE_UNIFORMS;
-					SHADER::Set (UNIFORM::uniforms, uniformsList);
+                    auto&& uniformsList = uniformsLists + SHADER_SCENE_UNIFORMS;
+                    SHADER::Set (UNIFORM::uniforms, uniformsList);
 
-					const auto mesh = meshes[0];
-        			glBindVertexArray (vaos[mesh.vaoIndex]);
-					MESH::draws[mesh.drawIndex](mesh.elementsCount, mesh.drawMode);
-        			glBindVertexArray (0);
+                    const auto mesh = meshes[0];
+                    glBindVertexArray (vaos[mesh.vaoIndex]);
+                    MESH::draws[mesh.drawIndex](mesh.elementsCount, mesh.drawMode);
+                    glBindVertexArray (0);
 
-				}
+                }
 
-			} // ---
+            } // ---
 
 
             #ifdef ATS_ENABLE_FRAMEBUFFER_RENDER
@@ -936,43 +936,43 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
 
                     glBindFramebuffer (GL_FRAMEBUFFER, 0);
 
-    		    	glDisable (GL_DEPTH_TEST);
-			    	glClear (GL_COLOR_BUFFER_BIT);
+                    glDisable (GL_DEPTH_TEST);
+                    glClear (GL_COLOR_BUFFER_BIT);
 
-			    	SHADER::Use (shaders[1]);
+                    SHADER::Use (shaders[1]);
 
-			    	{ // TEXTURE diffuse
-			    		UNIFORM::texture0[0] = 0;
-			    		UNIFORM::texture0[1] = ftos[0];
-			    	}
+                    { // TEXTURE diffuse
+                        UNIFORM::texture0[0] = 0;
+                        UNIFORM::texture0[1] = ftos[0];
+                    }
 
                     { // TEXTURE upscale
-			    		UNIFORM::texture1[0] = 1;
-			    		UNIFORM::texture1[1] = ftos[1];
-			    	}
+                        UNIFORM::texture1[0] = 1;
+                        UNIFORM::texture1[1] = ftos[1];
+                    }
 
                     #ifdef ATS_ENABLE_FRAMEBUFFER_DEPTH_TEXTURE
 
                         { // DEPTH TEXTURE
-			    	    	UNIFORM::texture2[0] = 2;
-			    	    	UNIFORM::texture2[1] = ftos[2];
-			    	    }
+                            UNIFORM::texture2[0] = 2;
+                            UNIFORM::texture2[1] = ftos[2];
+                        }
                         
                     #endif
 
-			    	{ // DRAW Framebuffer contents
+                    { // DRAW Framebuffer contents
 
-			    		auto&& uniformsList = uniformsLists + SHADER_FINAL_UNIFORMS;
-			    		SHADER::Set (UNIFORM::uniforms, uniformsList);
+                        auto&& uniformsList = uniformsLists + SHADER_FINAL_UNIFORMS;
+                        SHADER::Set (UNIFORM::uniforms, uniformsList);
 
-			    		const auto mesh = meshes[1];
-			    		glBindVertexArray (vaos[mesh.vaoIndex]);
-			    		MESH::draws[mesh.drawIndex](mesh.elementsCount, mesh.drawMode);
-        	    		glBindVertexArray (0);
+                        const auto mesh = meshes[1];
+                        glBindVertexArray (vaos[mesh.vaoIndex]);
+                        MESH::draws[mesh.drawIndex](mesh.elementsCount, mesh.drawMode);
+                        glBindVertexArray (0);
 
-			    	}
+                    }
 
-			    } // ---
+                } // ---
 
             #endif
 
@@ -980,11 +980,11 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
             #ifdef ATS_ENABLE_RENDER_TO_FILE
                 break; 
             #endif
-			
+            
 
-			// --- Apply and prepere for next.
-			    glfwSwapBuffers (window);
-			    glfwPollEvents ();
+            // --- Apply and prepere for next.
+                glfwSwapBuffers (window);
+                glfwPollEvents ();
 
                 glViewport (0, 0, ATS_ASSET_INPUT_CANVAS_X, ATS_ASSET_INPUT_CANVAS_Y);
             // ---
@@ -992,7 +992,7 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
             prevTimeValue = timeValue;
             timeValue = glfwGetTime ();
 
-		} // ---
+        } // ---
 
 
         #ifdef ATS_ENABLE_RENDER_TO_FILE
@@ -1045,45 +1045,45 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
 
 
         { // --- Cleanup - Window, Render
-		    glDeleteVertexArrays (vaosCount, vaos);
-		    FREE (vaos); MEMORY::EXIT::POP ();
-    	    glDeleteBuffers (xbosCount, xbos); 
-		    FREE (xbos); MEMORY::EXIT::POP ();
+            glDeleteVertexArrays (vaosCount, vaos);
+            FREE (vaos); MEMORY::EXIT::POP ();
+            glDeleteBuffers (xbosCount, xbos); 
+            FREE (xbos); MEMORY::EXIT::POP ();
 
             #ifdef ATS_ENABLE_FRAMEBUFFER_RENDER
 
                 glDeleteTextures (ftosCount, ftos);
-		        FREE (ftos); MEMORY::EXIT::POP ();
+                FREE (ftos); MEMORY::EXIT::POP ();
 
                 #ifndef ATS_ENABLE_FRAMEBUFFER_DEPTH_TEXTURE
 
-		            glDeleteRenderbuffers (rbosCount, rbos);
+                    glDeleteRenderbuffers (rbosCount, rbos);
                     FREE (rbos); MEMORY::EXIT::POP ();
 
                 #endif
 
-    	        glDeleteFramebuffers (fbosCount, fbos);
+                glDeleteFramebuffers (fbosCount, fbos);
                 FREE (fbos); MEMORY::EXIT::POP ();
 
             #endif
 
-		    FREE (uniformsLists); MEMORY::EXIT::POP ();
+            FREE (uniformsLists); MEMORY::EXIT::POP ();
 
             #ifdef ATS_ENABLE_CMAA2
                 SHADER::DeleteShaders (computesCount, computes);
-		        FREE (computes); MEMORY::EXIT::POP ();
+                FREE (computes); MEMORY::EXIT::POP ();
             #endif
 
-		    SHADER::DeleteShaders (shadersCount, shaders);
-		    FREE (shaders); MEMORY::EXIT::POP ();
+            SHADER::DeleteShaders (shadersCount, shaders);
+            FREE (shaders); MEMORY::EXIT::POP ();
 
-		    glDeleteTextures (texturesCount, textures);
-		    FREE (textures); MEMORY::EXIT::POP ();
+            glDeleteTextures (texturesCount, textures);
+            FREE (textures); MEMORY::EXIT::POP ();
 
-		    glfwTerminate (); MEMORY::EXIT::POP ();
+            glfwTerminate (); MEMORY::EXIT::POP ();
         }
 
-	}
+    }
 
 
     { // --- Cleanup
@@ -1096,6 +1096,6 @@ s32 main (s32 argumentsCount, c8* arguments[]) {
     #endif
 
 
-	return 0;
+    return 0;
 
 }

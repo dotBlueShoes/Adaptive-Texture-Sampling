@@ -237,5 +237,4 @@ void main () {
         finalColor = vec4 (result1, 1.0);
     else
         finalColor = vec4 (result2, 1.0);
-
 }
